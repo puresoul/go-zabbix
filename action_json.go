@@ -36,7 +36,7 @@ func (c *jAction) Action() (*Action, error) {
 	action.RecoveryMessageEnabled = (c.RecoveryMsg == "1")
 	action.Enabled = (c.Status == "0")
 
-	action.StepDuration, err = strconv.Atoi(c.EscPeriod)
+	action.StepDuration, err = getTime(c.EscPeriod)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing Action Step Duration: %v", err)
 	}
