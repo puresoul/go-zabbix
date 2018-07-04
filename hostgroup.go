@@ -5,25 +5,26 @@ import (
 )
 
 const (
-        // HostgroupSourceDefault indicates that a Hostgroup was created in the normal way.
-        HostgroupSourcePlain = 0
+	// HostgroupSourcePlain indicates that a Hostgroup was created in the normal way.
+	HostgroupSourcePlain = 0
 
-        // HostgroupSourceDiscovery indicates that a Hostgroup was created by Host discovery.
-        HostgroupSourceDiscovery = 4
+	// HostgroupSourceDiscovery indicates that a Hostgroup was created by Host discovery.
+	HostgroupSourceDiscovery = 4
 
-        // HostgroupInternalNo indicates that a Hostgroup is used not internally by the system.
-        HostgroupInternalNo = 0
+	// HostgroupInternalNo indicates that a Hostgroup is used not internally by the system.
+	HostgroupInternalNo = 0
 
-        // HostgroupInternalYes indicates that a Hostgroup is used internally by the system.
-        HostgroupInternalYes = 1
+	// HostgroupInternalYes indicates that a Hostgroup is used internally by the system.
+	HostgroupInternalYes = 1
 )
 
 // Hostgroup represents a Zabbix Hostgroup Object returned from the Zabbix API (see zabbix documentation).
 type Hostgroup struct {
-	GroupID		string	`json:"groupid"`
-	Name		string	`json:"name"`
-	Flags		string	`json:"flags"`
-	Internal	string	`json:"internal"`
+	GroupID  string `json:"groupid"`
+	Name     string `json:"name"`
+	Flags    string `json:"flags"`
+	Internal string `json:"internal"`
+	Hosts    []Host `json:"hosts,omitempty"`
 }
 
 // HostgroupGetParams represent the parameters for a `hostgroup.get` API call (see zabbix documentation).
@@ -43,13 +44,13 @@ type HostgroupGetParams struct {
 	MaintenanceIDs []string `json:"maintenanceids,omitempty"`
 
 	// Return only host groups that contain monitored hosts
-	Monitored_Hosts int `json:"monitored_hosts,omitempty"`
+	MonitoredHosts int `json:"monitored_hosts,omitempty"`
 
 	// Return only host groups that contain hosts
-	Real_Hosts int `json:"real_hosts,omitempty"`
+	RealHosts int `json:"real_hosts,omitempty"`
 
 	// Return only host groups that contain templates
-	Templated_Hosts int `json:"templated_hosts,omitempty"`
+	TemplatedHosts int `json:"templated_hosts,omitempty"`
 
 	// Return only host groups that contain the given templates
 	TemplateIDs []string `json:"templateids,omitempty"`
@@ -58,34 +59,34 @@ type HostgroupGetParams struct {
 	TriggerIDs []string `json:"triggerids,omitempty"`
 
 	// Return only host groups that contain hosts with applications
-	With_Applications int `json:"with_applications,omitempty"`
+	WithApplications int `json:"with_applications,omitempty"`
 
 	// Return only host groups that contain hosts with graphs
-	With_Graphs int `json:"with_graphs,omitempty"`
+	WithGraphs int `json:"with_graphs,omitempty"`
 
 	// Return only host groups that contain hosts or templates
-	With_Hosts_And_Templates int `json:"with_hosts_and_templates,omitempty"`
+	WithHostsAndTemplates int `json:"with_hosts_and_templates,omitempty"`
 
 	// Return only host groups that contain hosts with web checks
-	With_Httptests int `json:"with_httptests,omitempty"`
+	WithHttptests int `json:"with_httptests,omitempty"`
 
 	// Return only host groups that contain hosts or templates with items
-	With_Items int `json:"with_items,omitempty"`
+	WithItems int `json:"with_items,omitempty"`
 
 	// Return only host groups that contain hosts with enabled web checks
-	With_Monitored_Httptests int `json:"with_monitored_httptests,omitempty"`
+	WithMonitoredHttptests int `json:"with_monitored_httptests,omitempty"`
 
 	// Return only host groups that contain hosts or templates with enabled items
-	With_Monitored_Items int `json:"with_monitored_items,omitempty"`
+	WithMonitoredItems int `json:"with_monitored_items,omitempty"`
 
 	// Return only host groups that contain hosts with enabled triggers
-	With_Monitored_Triggers int `json:"with_monitored_triggers,omitempty"`
+	WithMonitoredTriggers int `json:"with_monitored_triggers,omitempty"`
 
 	// Return only host groups that contain hosts with numeric items
-	With_Simple_Graph_Items int `json:"with_simple_graph_items,omitempty"`
+	WithSimpleGraphItems int `json:"with_simple_graph_items,omitempty"`
 
 	// Return only host groups that contain hosts with triggers
-	With_Triggers int `json:"with_triggers,omitempty"`
+	WithTriggers int `json:"with_triggers,omitempty"`
 
 	// Return the LLD rule that created the host group in the discoveryRule property
 	SelectDiscoveryRule SelectQuery `json:"selectDiscoveryRule,omitempty"`

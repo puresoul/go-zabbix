@@ -5,23 +5,38 @@ import (
 )
 
 const (
-	// This is a normal trigger state. Called FALSE in older Zabbix versions.
+	// TriggerAlarmStateOK means a normal trigger state. Called FALSE in older Zabbix versions.
 	TriggerAlarmStateOK = iota
-	// Normally means that something happened.
+
+	// TriggerAlarmStateProblem normally means that something happened.
 	TriggerAlarmStateProblem
 )
 
 const (
-	TriggerStateNormal  = iota
+	// TriggerStateNormal means normal trigger state
+	TriggerStateNormal = iota
+
+	// TriggerStateUnknown means unknown trigger state
 	TriggerStateUnknown
 )
 
 const (
+	// TriggerSeverityNotClassified is Not classified severity
 	TriggerSeverityNotClassified = iota
+
+	// TriggerSeverityInformation is Information severity
 	TriggerSeverityInformation
+
+	// TriggerSeverityWarning is Warning severity
 	TriggerSeverityWarning
+
+	// TriggerSeverityAverage is Average severity
 	TriggerSeverityAverage
+
+	// TriggerSeverityHigh is High severity
 	TriggerSeverityHigh
+
+	// TriggerSeverityDisaster is Disaster severity
 	TriggerSeverityDisaster
 )
 
@@ -76,13 +91,20 @@ type Trigger struct {
 	// Tags is only populated if TriggerGetParams.SelectTags is given in the
 	// query parameters that returned this Trigger.
 	Tags []TriggerTag
+
+	// LastEvent is the latest event for the trigger
+	//
+	// LastEvent is only populated if TriggerGetParams.SelectLastEvent is set
+	LastEvent *Event
 }
 
+// TriggerTag is trigger tag
 type TriggerTag struct {
 	Name  string
 	Value string
 }
 
+// TriggerGetParams is params for trigger.get query
 type TriggerGetParams struct {
 	GetParameters
 
@@ -108,7 +130,7 @@ type TriggerGetParams struct {
 
 	Group string `json:"group,omitempty"`
 
-	Host string `json:"group,omitempty"`
+	Host string `json:"host,omitempty"`
 
 	// InheritedOnly filters search results to triggers which have been
 	// inherited from a template.

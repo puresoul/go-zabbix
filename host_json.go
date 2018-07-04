@@ -10,8 +10,8 @@ import (
 type jHost struct {
 	HostID   string      `json:"hostid"`
 	Hostname string      `json:"host"`
-	Flags    int         `json:"flags,string"`
-	Name     string      `json:"name"`
+	Flags    int         `json:"flags,string,omitempty"`
+	Name     string      `json:"name,omitempty"`
 	Macros   []HostMacro `json:"macros,omitempty"`
 	Groups   []Hostgroup `json:"groups,omitempty"`
 }
@@ -47,7 +47,7 @@ func (c jHosts) Hosts() ([]Host, error) {
 		for i, jhost := range c {
 			host, err := jhost.Host()
 			if err != nil {
-				return nil, fmt.Errorf("Error unmarshalling Host %d in JSON data: %v", err)
+				return nil, fmt.Errorf("Error unmarshalling Host %d in JSON data: %v", i, err)
 			}
 
 			hosts[i] = *host
