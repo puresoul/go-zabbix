@@ -190,7 +190,7 @@ type TriggerGetParams struct {
 // GetTriggers queries the Zabbix API for Triggers matching the given search
 // parameters.
 //
-// ErrTriggerNotFound is returned if the search result set is empty.
+// ErrNotFound is returned if the search result set is empty.
 // An error is returned if a transport, parsing or API error occurs.
 func (c *Session) GetTriggers(params TriggerGetParams) ([]Trigger, error) {
 	triggers := make([]jTrigger, 0)

@@ -57,7 +57,7 @@ func (c *jTrigger) Trigger() (*Trigger, error) {
 	trigger := &Trigger{}
 	trigger.TriggerID = c.TriggerID
 	trigger.AlarmState = c.AlarmState
-	trigger.Enabled = (c.Enabled == "1")
+	trigger.Enabled = (c.Enabled == "0")
 	trigger.Description = c.Description
 	trigger.Expression = c.Expression
 

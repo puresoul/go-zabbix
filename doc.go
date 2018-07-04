@@ -15,6 +15,8 @@ through to v3.0 without introducing limitations to the native API methods.
 
 	import (
 		"fmt"
+		"time"
+
 		"github.com/cavaliercoder/go-zabbix"
 	)
 
@@ -32,8 +34,8 @@ through to v3.0 without introducing limitations to the native API methods.
 		session, err := zabbix.CreateClient("http://zabbix/api_jsonrpc.php").
 			WithCache(cache).
 			WithCredentials("Admin", "zabbix").
+			WithTimeout(5 * time.Second).
 			Connect()
-
 
 		fmt.Printf("Connected to Zabbix API v%s", session.Version())
 	}

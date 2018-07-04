@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
+	"strings"
+	"sync"
 )
 
 // ErrNotFound describes an empty result set for an API call.
@@ -22,8 +25,18 @@ type Session struct {
 	// used to authenticate all API calls in this Session.
 	Token string `json:"token"`
 
-	// ApiVersion is the software version string of the connected Zabbix API.
+	// APIVersion is the software version string of the connected Zabbix API.
 	APIVersion string `json:"apiVersion"`
+
+	username string
+
+	password string
+
+	// requests timeout
+	timeout time.Duration
+
+	// Mutex for exclusive access to session
+	sync.RWMutex
 }
 
 // NewSession returns a new Session given an API connection URL and an API
@@ -34,9 +47,9 @@ type Session struct {
 //
 // The authentication token returned by the Zabbix API server is cached to
 // authenticate all subsequent requests in this Session.
-func NewSession(url string, username string, password string) (session *Session, err error) {
+func NewSession(url string, username string, password string, timeout time.Duration) (session *Session, err error) {
 	// create session
-	session = &Session{URL: url}
+	session = &Session{URL: url, username: username, password: password, timeout: timeout}
 
 	// get Zabbix API version
 	res, err := session.Do(NewRequest("apiinfo.version", nil))
@@ -49,23 +62,35 @@ func NewSession(url string, username string, password string) (session *Session,
 		return
 	}
 
-	// login to API
-	params := map[string]string{
-		"user":     username,
-		"password": password,
-	}
-
-	res, err = session.Do(NewRequest("user.login", params))
-	if err != nil {
-		return nil, fmt.Errorf("Error logging in to Zabbix API: %v", err)
-	}
-
-	err = res.Bind(&session.Token)
-	if err != nil {
+	if err = session.Login(""); err != nil {
 		return
 	}
 
 	return
+}
+
+// Login to API
+func (c *Session) Login(currentToken string) error {
+	c.Lock()
+	defer c.Unlock()
+
+	if currentToken != c.Token { // no need re-login
+		return nil
+	}
+
+	params := map[string]string{
+		"user":     c.username,
+		"password": c.password,
+	}
+
+	res, err := c.Do(NewRequest("user.login", params))
+	if err != nil {
+		return fmt.Errorf("Error logging in to Zabbix API: %v", err)
+	}
+
+	err = res.Bind(&c.Token)
+
+	return err
 }
 
 // Version returns the software version string of the connected Zabbix API.
@@ -90,7 +115,11 @@ func (c *Session) AuthToken() string {
 // Generally Get or a wrapper function will be used instead of Do.
 func (c *Session) Do(req *Request) (resp *Response, err error) {
 	// configure request
-	req.AuthToken = c.Token
+	if req.Method != "user.login" && req.Method != "apiinfo.version" {
+		c.RLock()
+		req.AuthToken = c.Token
+		c.RUnlock()
+	}
 
 	// encode request as json
 	b, err := json.Marshal(req)
@@ -98,7 +127,7 @@ func (c *Session) Do(req *Request) (resp *Response, err error) {
 		return
 	}
 
-	dprintf("Call     [%s:%d]: %s\n", req.Method, req.RequestID, b)
+	dprintf("Call [m:%s,r:%d]: %s\n", req.Method, req.RequestID, b)
 
 	// create HTTP request
 	r, err := http.NewRequest("POST", c.URL, bytes.NewReader(b))
@@ -109,7 +138,7 @@ func (c *Session) Do(req *Request) (resp *Response, err error) {
 	r.Header.Add("Content-Type", "application/json-rpc")
 
 	// send request
-	client := http.Client{}
+	client := http.Client{ Timeout: c.timeout }
 	res, err := client.Do(r)
 	if err != nil {
 		return
@@ -123,7 +152,7 @@ func (c *Session) Do(req *Request) (resp *Response, err error) {
 		return nil, fmt.Errorf("Error reading response: %v", err)
 	}
 
-	dprintf("Response [%s:%d]: %s\n", req.Method, req.RequestID, b)
+	dprintf("Response [m:%s,r:%d]: %s\n", req.Method, req.RequestID, b)
 
 	// map HTTP response to Response struct
 	resp = &Response{
@@ -138,6 +167,12 @@ func (c *Session) Do(req *Request) (resp *Response, err error) {
 
 	// check for API errors
 	if err = resp.Err(); err != nil {
+		if resp.Error.Code == -32602 && strings.Contains(resp.Error.Data, "re-login") {
+			if err = c.Login(req.AuthToken); err != nil {
+				return nil, err
+			}
+			return c.Do(NewRequest(req.Method, req.Params))
+		}
 		return
 	}
 

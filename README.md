@@ -14,7 +14,7 @@ language and the Zabbix monitoring API.
 
 A number of Zabbix API bindings already exist for Go with varying levels of
 maturity. This project aims to provide an alternative implementation which is
-stable, fast, and allows for loose typing (using types such as`interface{}` or
+stable, fast, and allows for loose typing (using types such as `interface{}` or
 `map[string]interface{}`) as well as strong types (such as `Host` or `Event`).
 
 The package aims to have comprehensive coverage of Zabbix API methods from v1.8
@@ -27,6 +27,8 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/cavaliercoder/go-zabbix"
 )
 
@@ -44,6 +46,7 @@ func main() {
 	session, err := zabbix.CreateClient("http://zabbix/api_jsonrpc.php").
 		WithCache(cache).
 		WithCredentials("Admin", "zabbix").
+		WithTimeout(5 * time.Second).
 		Connect()
 
 	fmt.Printf("Connected to Zabbix API v%s", session.Version())

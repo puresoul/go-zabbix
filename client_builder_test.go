@@ -94,7 +94,7 @@ func compareSessionWithMock(session *Session) error {
 
 // should started by TestSessionCache
 func testClientBuilder(t *testing.T, cache SessionAbstractCache) {
-	username, password, url := GetTestCredentials()
+	username, password, url, timeout := GetTestCredentials(t)
 
 	if !cache.HasSession() {
 		t.Errorf("ManualTestClientBuilder test requires a cached session, run TestSessionCache before running this test case")
@@ -102,7 +102,7 @@ func testClientBuilder(t *testing.T, cache SessionAbstractCache) {
 	}
 
 	// Try to build a session using the session builder
-	client, err := CreateClient(url).WithCache(cache).WithCredentials(username, password).Connect()
+	client, err := CreateClient(url).WithCache(cache).WithTimeout(timeout).WithCredentials(username, password).Connect()
 
 	if err != nil {
 		t.Errorf("failed to create a session using cache - %s", err)

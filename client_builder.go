@@ -1,11 +1,14 @@
 package zabbix
 
+import "time"
+
 // ClientBuilder is Zabbix API client builder
 type ClientBuilder struct {
 	cache       SessionAbstractCache
 	hasCache    bool
 	url         string
 	credentials map[string]string
+	timeout     time.Duration
 }
 
 // WithCache sets cache for Zabbix sessions
@@ -24,6 +27,13 @@ func (builder *ClientBuilder) WithCredentials(username string, password string) 
 	return builder
 }
 
+// WithTimeout sets cache for Zabbix sessions
+func (builder *ClientBuilder) WithTimeout(timeout time.Duration) *ClientBuilder {
+	builder.timeout = timeout
+
+	return builder
+}
+
 // Connect creates Zabbix API client and connects to the API server
 // or provides a cached server if any cache was specified
 func (builder *ClientBuilder) Connect() (session *Session, err error) {
@@ -35,7 +45,7 @@ func (builder *ClientBuilder) Connect() (session *Session, err error) {
 	}
 
 	// Otherwise - login to a Zabbix server
-	session, err = NewSession(builder.url, builder.credentials["username"], builder.credentials["password"])
+	session, err = NewSession(builder.url, builder.credentials["username"], builder.credentials["password"], builder.timeout)
 
 	if err != nil {
 		return nil, err
