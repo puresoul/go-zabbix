@@ -12,6 +12,17 @@ const (
 	HostSourceDiscovery = 4
 )
 
+const (
+	HostStatusMonitored = 0
+	HostStatusUnmonitored = 1
+)
+
+const (
+	HostEncryptionDisabled = 1
+	HostEncryptionPSK = 2
+	HostEncryptionCert = 4
+)
+
 // Host represents a Zabbix Host returned from the Zabbix API.
 //
 // See: https://www.zabbix.com/documentation/2.2/manual/config/hosts
@@ -34,6 +45,39 @@ type Host struct {
 
 	// Groups contains all Host Groups assigned to the Host.
 	Groups []Hostgroup
+
+	// Description of the host.
+	Description    string
+
+	// Status and function of the host.
+	//
+	// Status must be one of the HostStatus constants.
+	Status         int
+
+	// ProxyID is ID of the proxy that is used to monitor the host.
+	ProxyID        string
+
+	// Connections to host.
+	//
+	// TLSConnect must be one of the HostEncryption constants.
+	TLSConnect     int
+
+	// Connections from host.
+	//
+	// TLSAccept must be one of the HostEncryption constants.
+	TLSAccept      int
+
+	// Certificate issuer.
+	TLSIssuer      string
+
+	// Certificate subject.
+	TLSSubject     string
+
+	// PSK identity. Required if either TLSConnect or TLSAccept has PSK enabled.
+	TLSPSKIdentity string
+
+	// The preshared key. Required if either TLSConnect or TLSAccept has PSK enabled.
+	TLSPSK         string
 }
 
 // HostGetParams represent the parameters for a `host.get` API call.

@@ -2,18 +2,26 @@ package zabbix
 
 import (
 	"fmt"
-	//"strconv"
 )
 
 // jHost is a private map for the Zabbix API Host object.
 // See: https://www.zabbix.com/documentation/2.2/manual/api/reference/host/object
 type jHost struct {
-	HostID   string      `json:"hostid"`
-	Hostname string      `json:"host"`
-	Flags    int         `json:"flags,string,omitempty"`
-	Name     string      `json:"name,omitempty"`
-	Macros   []HostMacro `json:"macros,omitempty"`
-	Groups   []Hostgroup `json:"groups,omitempty"`
+	HostID         string      `json:"hostid"`
+	Hostname       string      `json:"host"`
+	Flags          int         `json:"flags,string,omitempty"`
+	Name           string      `json:"name,omitempty"`
+	Macros         []HostMacro `json:"macros,omitempty"`
+	Groups         []Hostgroup `json:"groups,omitempty"`
+	Description    string      `json:"description,omitempty"`
+	Status         int         `json:"status,string"`
+	ProxyID        string      `json:"proxy_hostid,omitempty"`
+	TLSConnect     int         `json:"tls_connect,string"`
+	TLSAccept      int         `json:"tls_accept,string"`
+	TLSIssuer      string      `json:"tls_issuer,omitempty"`
+	TLSSubject     string      `json:"tls_subject,omitempty"`
+	TLSPSKIdentity string      `json:"tls_psk_identity,omitempty"`
+	TLSPSK         string      `json:"tls_psk,omitempty"`
 }
 
 // Host returns a native Go Host struct mapped from the given JSON Host data.
@@ -26,6 +34,15 @@ func (c *jHost) Host() (*Host, error) {
 	host.DisplayName = c.Name
 	host.Macros = c.Macros
 	host.Groups = c.Groups
+	host.Description   = c.Description
+	host.Status        = c.Status
+	host.ProxyID       = c.ProxyID
+	host.TLSConnect    = c.TLSConnect
+	host.TLSAccept     = c.TLSAccept
+	host.TLSIssuer     = c.TLSIssuer
+	host.TLSSubject    = c.TLSSubject
+	host.TLSPSKIdentity= c.TLSPSKIdentity
+	host.TLSPSK        = c.TLSPSK
 	/*
 		host.Source, err = strconv.Atoi(c.Flags)
 		if err != nil {
