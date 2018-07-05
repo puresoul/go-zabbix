@@ -20,12 +20,14 @@ const (
 
 // Hostgroup represents a Zabbix Hostgroup Object returned from the Zabbix API (see zabbix documentation).
 type Hostgroup struct {
-	GroupID  string `json:"groupid"`
-	Name     string `json:"name"`
-	Flags    string `json:"flags"`
-	Internal string `json:"internal"`
+	GroupID  string `json:"groupid,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Flags    string `json:"flags,omitempty"`
+	Internal string `json:"internal,omitempty"`
 	Hosts    []Host `json:"hosts,omitempty"`
 }
+
+type Hostgroups []Hostgroup
 
 // HostgroupGetParams represent the parameters for a `hostgroup.get` API call (see zabbix documentation).
 type HostgroupGetParams struct {

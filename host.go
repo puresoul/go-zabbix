@@ -13,14 +13,14 @@ const (
 )
 
 const (
-	HostStatusMonitored = 0
+	HostStatusMonitored   = 0
 	HostStatusUnmonitored = 1
 )
 
 const (
 	HostEncryptionDisabled = 1
-	HostEncryptionPSK = 2
-	HostEncryptionCert = 4
+	HostEncryptionPSK      = 2
+	HostEncryptionCert     = 4
 )
 
 // Host represents a Zabbix Host returned from the Zabbix API.
@@ -28,57 +28,59 @@ const (
 // See: https://www.zabbix.com/documentation/2.2/manual/config/hosts
 type Host struct {
 	// HostID is the unique ID of the Host.
-	HostID string
+	HostID string `json:"hostid,omitempty"`
 
 	// Hostname is the technical name of the Host.
-	Hostname string
+	Hostname string `json:"host,omitempty"`
 
 	// DisplayName is the visible name of the Host.
-	DisplayName string
+	DisplayName string `json:"name,omitempty"`
 
 	// Source is the origin of the Host and must be one of the HostSource
 	// constants.
-	Source int
+	Source int `json:"flags,string,omitempty"`
 
 	// Macros contains all Host Macros assigned to the Host.
-	Macros []HostMacro
+	Macros HostMacros `json:"macros,omitempty"`
 
 	// Groups contains all Host Groups assigned to the Host.
-	Groups []Hostgroup
+	Groups Hostgroups `json:"groups,omitempty"`
 
 	// Description of the host.
-	Description    string
+	Description string `json:"description,omitempty"`
 
 	// Status and function of the host.
 	//
 	// Status must be one of the HostStatus constants.
-	Status         int
+	Status int `json:"status,string,omitempty"`
 
 	// ProxyID is ID of the proxy that is used to monitor the host.
-	ProxyID        string
+	ProxyID string `json:"proxy_hostid,omitempty"`
 
 	// Connections to host.
 	//
 	// TLSConnect must be one of the HostEncryption constants.
-	TLSConnect     int
+	TLSConnect int `json:"tls_connect,string,omitempty"`
 
 	// Connections from host.
 	//
 	// TLSAccept must be one of the HostEncryption constants.
-	TLSAccept      int
+	TLSAccept int `json:"tls_accept,string,omitempty"`
 
 	// Certificate issuer.
-	TLSIssuer      string
+	TLSIssuer string `json:"tls_issuer,omitempty"`
 
 	// Certificate subject.
-	TLSSubject     string
+	TLSSubject string `json:"tls_subject,omitempty"`
 
 	// PSK identity. Required if either TLSConnect or TLSAccept has PSK enabled.
-	TLSPSKIdentity string
+	TLSPSKIdentity string `json:"tls_psk_identity,omitempty"`
 
 	// The preshared key. Required if either TLSConnect or TLSAccept has PSK enabled.
-	TLSPSK         string
+	TLSPSK string `json:"tls_psk,omitempty"`
 }
+
+type Hosts []Host
 
 // HostGetParams represent the parameters for a `host.get` API call.
 //
@@ -168,11 +170,33 @@ type HostGetParams struct {
 	SelectTriggers        SelectQuery `json:"selectTriggers,omitempty"`
 }
 
+type HostCreateParams struct {
+	Host
+	Interfaces HostInterfaces `json:"interfaces"`
+	Templates  Templates      `json:"templates,omitempty"`
+	// Inventory Inventory `json:"inventory,omitempty"`
+}
+
+type HostUpdateParams struct {
+	Host
+	Interfaces      HostInterfaces `json:"interfaces,omitempty"`
+	Templates       Templates      `json:"templates,omitempty"`
+	UnlinkTemplates Templates      `json:"templates,omitempty"`
+	// Inventory Inventory `json:"inventory,omitempty"`
+}
+
+// HostResponse represent host action response body
+type HostResponse struct {
+	HostIDs []string `json:"hostids"`
+}
+
 // GetHosts queries the Zabbix API for Hosts matching the given search
 // parameters.
 //
-// ErrEventNotFound is returned if the search result set is empty.
+// ErrNotFound is returned if the search result set is empty.
 // An error is returned if a transport, parsing or API error occurs.
+//
+// https://www.zabbix.com/documentation/3.4/manual/api/reference/host/get
 func (c *Session) GetHosts(params HostGetParams) ([]Host, error) {
 	hosts := make([]jHost, 0)
 	err := c.Get("host.get", params, &hosts)
@@ -196,4 +220,58 @@ func (c *Session) GetHosts(params HostGetParams) ([]Host, error) {
 	}
 
 	return out, nil
+}
+
+// CreateHosts creates a single or multiple new hosts.
+// Returns a list of ids of created hosts.
+//
+// https://www.zabbix.com/documentation/3.4/manual/api/reference/host/create
+func (c *Session) CreateHosts(params ...HostCreateParams) (hostIds []string, err error) {
+	var body HostResponse
+
+	if err := c.Get("host.create", params, &body); err != nil {
+		return nil, err
+	}
+
+	if (body.HostIDs == nil) || (len(body.HostIDs) == 0) {
+		return nil, ErrNotFound
+	}
+
+	return body.HostIDs, nil
+}
+
+// DeleteHosts method allows to delete hosts.
+// Returns a list of deleted hosts ids.
+//
+// https://www.zabbix.com/documentation/3.4/manual/api/reference/host/delete
+func (c *Session) DeleteHosts(hostIDs ...string) (hostIds []string, err error) {
+	var body HostResponse
+
+	if err := c.Get("host.delete", hostIDs, &body); err != nil {
+		return nil, err
+	}
+
+	if (body.HostIDs == nil) || (len(body.HostIDs) == 0) {
+		return nil, ErrNotFound
+	}
+
+	return body.HostIDs, nil
+}
+
+// UpdateHosts method allows to update hosts.
+// Returns a list of updated hosts ids.
+//
+// https://www.zabbix.com/documentation/3.4/manual/api/reference/host/update
+func (c *Session) UpdateHosts(params ...HostUpdateParams) (hostIds []string, err error) {
+	var body HostResponse
+
+	if err := c.Get("host.update", params, &body); err != nil {
+		return nil, err
+	}
+
+	if (body.HostIDs == nil) || (len(body.HostIDs) == 0) {
+		return nil, ErrNotFound
+	}
+
+	return body.HostIDs, nil
 }

@@ -14,3 +14,5 @@ type HostMacro struct {
 	// Value is the value of the Macro.
 	Value string `json:"value"`
 }
+
+type HostMacros []HostMacro
