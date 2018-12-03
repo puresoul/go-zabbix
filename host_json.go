@@ -2,6 +2,7 @@ package zabbix
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // jHost is a private map for the Zabbix API Host object.
@@ -35,7 +36,7 @@ func (c *jHost) Host() (*Host, error) {
 	host.Macros = c.Macros
 	host.Groups = c.Groups
 	host.Description   = c.Description
-	host.Status        = c.Status
+	host.Status        = strconv.Itoa(c.Status)
 	host.ProxyID       = c.ProxyID
 	host.TLSConnect    = c.TLSConnect
 	host.TLSAccept     = c.TLSAccept

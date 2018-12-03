@@ -13,8 +13,8 @@ const (
 )
 
 const (
-	HostStatusMonitored   = 0
-	HostStatusUnmonitored = 1
+	HostStatusMonitored   = "0"
+	HostStatusUnmonitored = "1"
 )
 
 const (
@@ -52,7 +52,7 @@ type Host struct {
 	// Status and function of the host.
 	//
 	// Status must be one of the HostStatus constants.
-	Status int `json:"status,string,omitempty"`
+	Status string `json:"status,omitempty"`
 
 	// ProxyID is ID of the proxy that is used to monitor the host.
 	ProxyID string `json:"proxy_hostid,omitempty"`
