@@ -2,6 +2,7 @@ package zabbix
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // jHostInterface is a private map for the Zabbix API HostInterface object.
@@ -14,7 +15,7 @@ type jHostInterface struct {
 	Main        int    `json:"main,string"`
 	Port        string `json:"port"`
 	Type        int    `json:"type,string"`
-	UseIP       int    `json:"useip,string"`
+	UseIP       int	   `json:"useip,string"`
 	Bulk        int    `json:"bulk,string"`
 	Host 		jHosts `json:"hosts"`
 }
@@ -29,7 +30,7 @@ func (c *jHostInterface) HostInterface() (*HostInterface, error) {
 	hostIf.Default = c.Main
 	hostIf.Port = c.Port
 	hostIf.Type = c.Type
-	hostIf.ConnectionType = c.UseIP
+	hostIf.ConnectionType = strconv.Itoa(c.UseIP)
 	hostIf.Bulk = c.Bulk
 	hosts, err := c.Host.Hosts()
 	if err != nil {

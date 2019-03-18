@@ -17,8 +17,8 @@ const (
 )
 
 const (
-	HostInterfaceConnTypeDNS = 0
-	HostInterfaceConnTypeIP  = 1
+	HostInterfaceConnTypeDNS = "0"
+	HostInterfaceConnTypeIP  = "1"
 )
 
 const (
@@ -60,7 +60,7 @@ type HostInterface struct {
 	// Whether the connection should be made via IP.
 	//
 	// Type must be one of the HostInterfaceConnType constants.
-	ConnectionType int `json:"useip,string,omitempty"`
+	ConnectionType string `json:"useip,omitempty"`
 
 	// Whether to use bulk SNMP requests.
 	//
