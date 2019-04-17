@@ -5,25 +5,39 @@ import (
 )
 
 const (
+	// HostInterfaceTypeAgent represents the host interface flag for Agent type
 	HostInterfaceTypeAgent = 1
-	HostInterfaceTypeSNMP  = 2
-	HostInterfaceTypeIPMI  = 3
-	HostInterfaceTypeJMX   = 4
+	// HostInterfaceTypeSNMP represents the host interface flag for SNMP type
+	HostInterfaceTypeSNMP = 2
+	// HostInterfaceTypeIPMI represents the host interface flag for IPMI type
+	HostInterfaceTypeIPMI = 3
+	// HostInterfaceTypeJMX represents the host interface flag for JMX type
+	HostInterfaceTypeJMX = 4
 )
 
 const (
+	// HostInterfaceNotDefault represents the host interface flag when it not delfaut
 	HostInterfaceNotDefault = 0
-	HostInterfaceDefault    = 1
+	// HostInterfaceDefault represents the host interface flag when if delfaut
+	HostInterfaceDefault = 1
 )
 
 const (
+	// HostInterfaceConnTypeDNS represents the host interface type flag when
+	// DNS name is default for performing the connection
 	HostInterfaceConnTypeDNS = "0"
-	HostInterfaceConnTypeIP  = "1"
+	// HostInterfaceConnTypeIP represents the host interface type flag when
+	// IP address is default for performing the connection
+	HostInterfaceConnTypeIP = "1"
 )
 
 const (
+	// HostInterfaceBulkDisabled represents SNMP host interface parameter for
+	// Disable state of SNMP Bulk polling
 	HostInterfaceBulkDisabled = 0
-	HostInterfaceBulkEnabled  = 1
+	// HostInterfaceBulkEnabled represents SNMP host interface parameter for
+	// Enable state of SNMP Bulk polling
+	HostInterfaceBulkEnabled = 1
 )
 
 // HostInterface represents a Zabbix HostInterface returned from the Zabbix API.
@@ -74,6 +88,7 @@ type HostInterface struct {
 	// Items []Item `json:"items,omitempty"`
 }
 
+// HostInterfaces represents the slice of Host interfaces returned from Zabbix API
 type HostInterfaces []HostInterface
 
 // HostInterfaceGetParams represent the parameters for a `hostinterface.get` API call.
@@ -88,7 +103,7 @@ type HostInterfaceGetParams struct {
 
 	ItemIDs []string `json:"itemids,omitempty"`
 
-	TriggerIDs []string `json:"itemids,omitempty"`
+	TriggerIDs []string `json:"triggerids,omitempty"`
 
 	SelectItems SelectQuery `json:"selectItems,omitempty"`
 

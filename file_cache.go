@@ -54,10 +54,11 @@ func (c *SessionFileCache) SetSessionLifetime(d time.Duration) {
 func (c *SessionFileCache) SaveSession(session *Session) error {
 	sessionContainer := cachedSessionContainer{
 		CreatedAt: time.Now().Unix(),
-		Session:   *session,
+		// Lock value from Zabbix.Session
+		Session: *session,
 	}
 
-	serialized, err := json.Marshal(sessionContainer)
+	serialized, err := json.Marshal(&sessionContainer)
 
 	if err != nil {
 		return err

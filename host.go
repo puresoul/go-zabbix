@@ -13,14 +13,22 @@ const (
 )
 
 const (
-	HostStatusMonitored   = "0"
+	// HostStatusMonitored represents the numberic state of the enabled host
+	HostStatusMonitored = "0"
+	// HostStatusUnmonitored represents the numberic state of the disabled host
 	HostStatusUnmonitored = "1"
 )
 
 const (
+	// HostEncryptionDisabled represents the host flag when encryption disabled
+	// for the host
 	HostEncryptionDisabled = 1
-	HostEncryptionPSK      = 2
-	HostEncryptionCert     = 4
+	// HostEncryptionPSK represents the state when PSK encryption is used
+	// for the host
+	HostEncryptionPSK = 2
+	// HostEncryptionCert represents the sate when cert encryption is used
+	// for the host
+	HostEncryptionCert = 4
 )
 
 // Host represents a Zabbix Host returned from the Zabbix API.
@@ -80,6 +88,7 @@ type Host struct {
 	TLSPSK string `json:"tls_psk,omitempty"`
 }
 
+// Hosts represents the set of the hosts returned from Zabbix API
 type Hosts []Host
 
 // HostGetParams represent the parameters for a `host.get` API call.
@@ -170,6 +179,8 @@ type HostGetParams struct {
 	SelectTriggers        SelectQuery `json:"selectTriggers,omitempty"`
 }
 
+// HostCreateParams struct represent the Zabbix paramaeters required for
+// creaing the hosts
 type HostCreateParams struct {
 	Host
 	Interfaces HostInterfaces `json:"interfaces"`
@@ -177,6 +188,8 @@ type HostCreateParams struct {
 	// Inventory Inventory `json:"inventory,omitempty"`
 }
 
+// HostUpdateParams struct represents the Zabbix basic parameters for
+// updating the host by Zabbix API
 type HostUpdateParams struct {
 	Host
 	Interfaces      HostInterfaces `json:"interfaces,omitempty"`

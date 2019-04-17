@@ -15,4 +15,5 @@ type HostMacro struct {
 	Value string `json:"value"`
 }
 
+// HostMacros represents a set of Host Macros returned from the Zabbix API
 type HostMacros []HostMacro

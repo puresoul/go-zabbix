@@ -84,6 +84,7 @@ type ActionOperation struct{}
 // ActionGetParams is query params for action.get call
 type ActionGetParams struct {
 	GetParameters
+	EventSource string `json:"eventsource"`
 }
 
 // GetActions queries the Zabbix API for Actions matching the given search

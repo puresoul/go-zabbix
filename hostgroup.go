@@ -27,6 +27,7 @@ type Hostgroup struct {
 	Hosts    []Host `json:"hosts,omitempty"`
 }
 
+// Hostgroups represents number Zabbix Host gropus returned from the Zabbix API
 type Hostgroups []Hostgroup
 
 // HostgroupGetParams represent the parameters for a `hostgroup.get` API call (see zabbix documentation).

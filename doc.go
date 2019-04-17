@@ -1,3 +1,5 @@
+package zabbix
+
 /*
 Package zabbix provides bindings to interoperate between programs written in Go
 language and the Zabbix monitoring API.
@@ -40,7 +42,4 @@ through to v3.0 without introducing limitations to the native API methods.
 		fmt.Printf("Connected to Zabbix API v%s", session.Version())
 	}
 
-For more information see: https://github.com/cavaliercoder/go-zabbix
-
-*/
-package zabbix
+For more information see: https://github.com/cavaliercoder/go-zabbix*/

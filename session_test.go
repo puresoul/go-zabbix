@@ -2,9 +2,9 @@ package zabbix
 
 import (
 	"os"
+	"strconv"
 	"testing"
 	"time"
-	"strconv"
 )
 
 var session *Session
@@ -12,7 +12,7 @@ var session *Session
 func GetTestCredentials(t *testing.T) (username string, password string, url string, timeout time.Duration) {
 	url = os.Getenv("ZBX_URL")
 	if url == "" {
-		url = "http://localhost:8080/api_jsonrpc.php"
+		url = "http://192.168.33.11:8040/api_jsonrpc.php"
 	}
 
 	username = os.Getenv("ZBX_USERNAME")
@@ -25,15 +25,15 @@ func GetTestCredentials(t *testing.T) (username string, password string, url str
 		password = "zabbix"
 	}
 
-	timeout_s := os.Getenv("ZBX_TIMEOUT")
-	if timeout_s == "" {
+	timeoutS := os.Getenv("ZBX_TIMEOUT")
+	if timeoutS == "" {
 		timeout = 5 * time.Second
 	} else {
-		timeout_i, err := strconv.Atoi(timeout_s)
+		timeoutI, err := strconv.Atoi(timeoutS)
 		if err != nil {
 			t.Fatalf("Error converting ZBX_TIMEOUT to int: %v", err)
 		}
-		timeout = time.Duration(timeout_i) * time.Second
+		timeout = time.Duration(timeoutI) * time.Second
 	}
 
 	return username, password, url, timeout
