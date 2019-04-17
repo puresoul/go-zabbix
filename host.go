@@ -245,7 +245,7 @@ func (c *Session) CreateHosts(params ...HostCreateParams) (hostIds []string, err
 	if err := c.Get("host.create", params, &body); err != nil {
 		return nil, err
 	}
-
+	fmt.Println(body)
 	if (body.HostIDs == nil) || (len(body.HostIDs) == 0) {
 		return nil, ErrNotFound
 	}

@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"time"
 	"strings"
 	"sync"
+	"time"
 )
 
 // ErrNotFound describes an empty result set for an API call.
@@ -24,7 +24,7 @@ type Session struct {
 	// Token is the cached authentication token returned by `user.login` and
 	// used to authenticate all API calls in this Session.
 	Token string `json:"token"`
-
+	// TODO: use API version to use many envs
 	// APIVersion is the software version string of the connected Zabbix API.
 	APIVersion string `json:"apiVersion"`
 
@@ -138,7 +138,7 @@ func (c *Session) Do(req *Request) (resp *Response, err error) {
 	r.Header.Add("Content-Type", "application/json-rpc")
 
 	// send request
-	client := http.Client{ Timeout: c.timeout }
+	client := http.Client{Timeout: c.timeout}
 	res, err := client.Do(r)
 	if err != nil {
 		return
