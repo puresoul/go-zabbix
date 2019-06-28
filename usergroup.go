@@ -1,11 +1,41 @@
 package zabbix
 
 import (
-//	"fmt"
+	"fmt"
 )
 
 type Usergroups struct {
         UsergroupID string `json:"usrgrpid,omitempty"`
+}
+
+type UsergroupResponse struct {
+        UsergroupIDs string `json:"usrgrpids,omitempty"`
+}
+
+type UsergroupCreateParams struct {
+	GetParameters
+	Name string `json:"name,omitempty"`
+    Rights UsergroupRight `json:"rights,omitempty"`
+    UserID string `json:"userids,omitempty"`
+}
+
+type UsergroupRight struct {
+	Permission int `json:"permission"`
+	ID string `json:"id,omitempty"`
+}
+
+func (c *Session) CreateUsergroup(params UsergroupCreateParams) (UsertgroupIDs string, err error) {
+	var body UsergroupResponse
+
+	if err := c.Get("usergroup.create", params, &body); err != nil {
+		return "", err
+	}
+	fmt.Println(body)
+	if (len(body.UsergroupIDs) == 0) {
+		return "", ErrNotFound
+	}
+
+	return body.UsergroupIDs, nil
 }
 
 
@@ -60,19 +90,6 @@ func (c *Session) GetHosts(params HostGetParams) ([]Host, error) {
 // Returns a list of ids of created hosts.
 //
 // https://www.zabbix.com/documentation/3.4/manual/api/reference/host/create
-func (c *Session) CreateHosts(params ...HostCreateParams) (hostIds []string, err error) {
-	var body HostResponse
-
-	if err := c.Get("host.create", params, &body); err != nil {
-		return nil, err
-	}
-	fmt.Println(body)
-	if (body.HostIDs == nil) || (len(body.HostIDs) == 0) {
-		return nil, ErrNotFound
-	}
-
-	return body.HostIDs, nil
-}
 
 // DeleteHosts method allows to delete hosts.
 // Returns a list of deleted hosts ids.

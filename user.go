@@ -12,7 +12,7 @@ type UserCreateParams struct {
 }
 
 type UserResponse struct {
-	UserIDs []string `json:"Userids"`
+	UserIDs []string `json:"userids"`
 }
 
 // CreateUsers creates a single or multiple new Users.

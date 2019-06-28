@@ -149,11 +149,12 @@ type HostgroupCreateParams struct {
 type HostgroupResponse struct {
 	HostgroupIDs []string `json:"groupids"`
 }
+
 // CreateHostgroups creates a single or multiple new Hostgroups.
 // Returns a list of ids of created Hostgroups.
 //
 // https://www.zabbix.com/documentation/3.4/manual/api/reference/Hostgroup/create
-func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIds []string, err error) {
+func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIDs []string, err error) {
 	var body HostgroupResponse
 
 	if err := c.Get("hostgroup.create", params, &body); err != nil {
