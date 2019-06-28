@@ -26,6 +26,7 @@ through to v3.0 without introducing limitations to the native API methods.
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"time"
 	"github.com/cavaliercoder/go-zabbix"
