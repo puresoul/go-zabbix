@@ -139,30 +139,24 @@ func (c *Session) GetHostgroups(params HostgroupGetParams) ([]Hostgroup, error) 
 
 	return out, nil
 }
-/*
 
-// HostUpdateParams struct represents the Zabbix basic parameters for
-// updating the Hostgroup by Zabbix API
-type HostgroupUpdateParams struct {
-	Hostgroup
-	Interfaces      Interfaces `json:"interfaces,omitempty"`
-	Templates       Templates      `json:"templates,omitempty"`
-	UnlinkTemplates Templates      `json:"templates,omitempty"`
-	// Inventory Inventory `json:"inventory,omitempty"`
+type HostgroupCreateParams struct {
+	GetParameters
+	Name     string `json:"name,omitempty"`
 }
 
 // HostgroupResponse represent Hostgroup action response body
 type HostgroupResponse struct {
-	HostgroupIDs []string `json:"Hostgroupids"`
+	HostgroupIDs []string `json:"groupids"`
 }
 // CreateHostgroups creates a single or multiple new Hostgroups.
 // Returns a list of ids of created Hostgroups.
 //
 // https://www.zabbix.com/documentation/3.4/manual/api/reference/Hostgroup/create
-func (c *Session) CreateHostgroups(params ...HostgroupCreateParams) (HostgroupIds []string, err error) {
+func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIds []string, err error) {
 	var body HostgroupResponse
 
-	if err := c.Get("Hostgroup.create", params, &body); err != nil {
+	if err := c.Get("hostgroup.create", params, &body); err != nil {
 		return nil, err
 	}
 	fmt.Println(body)
@@ -172,6 +166,14 @@ func (c *Session) CreateHostgroups(params ...HostgroupCreateParams) (HostgroupId
 
 	return body.HostgroupIDs, nil
 }
+
+
+/*
+
+// HostUpdateParams struct represents the Zabbix basic parameters for
+// updating the Hostgroup by Zabbix API
+
+
 
 // DeleteHostgroups method allows to delete Hostgroups.
 // Returns a list of deleted Hostgroups ids.

@@ -19,7 +19,7 @@ type UserResponse struct {
 // Returns a list of ids of created Users.
 //
 // https://www.zabbix.com/documentation/3.4/manual/api/reference/User/create
-func (c *Session) CreateUsers(params UserCreateParams) (UserIds []string, err error) {
+func (c *Session) CreateUser(params UserCreateParams) (UserIds []string, err error) {
 	var body UserResponse
 
 	if err := c.Get("user.create", params, &body); err != nil {

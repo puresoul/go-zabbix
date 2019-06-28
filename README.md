@@ -40,7 +40,7 @@ func main() {
 
 	var grp []zabbix.Usergroups
 	grp = append(grp, zabbix.Usergroups{UsergroupID: "84"})
-	tmp, err := session.CreateUsers(zabbix.UserCreateParams{Alias: "testicek", Passwd: "password", Usergroup: grp})
+	tmp, err := session.CreateUser(zabbix.UserCreateParams{Alias: "testicek", Passwd: "password", Usergroup: grp})
 
 	fmt.Println(tmp,err)
 }
