@@ -20,7 +20,11 @@ stable, fast, and allows for loose typing (using types such as `interface{}` or
 The package aims to have comprehensive coverage of Zabbix API methods from v1.8
 through to v3.0 without introducing limitations to the native API methods.
 
-## Getting started
+## PS
+
+But I need to orchestrate user/host (groups) creation. Thats why this hack... :-D
+
+## Getting started with very rough examle
 
 ```go
 package main
@@ -38,11 +42,34 @@ func main() {
 		fmt.Println(err)
 	}
 
-	var grp []zabbix.Usergroups
-	grp = append(grp, zabbix.Usergroups{UsergroupID: "84"})
-	tmp, err := session.CreateUser(zabbix.UserCreateParams{Alias: "testicek", Passwd: "password", Usergroup: grp})
+	v := zabbix.UsergroupRight{Permission: 0, ID: "2"}
 
-	fmt.Println(tmp,err)
+    tmp1, err := session.CreateUsergroup(zabbix.UsergroupCreateParams{Name: "test", Rights: v, UserID: "3"})
+
+	fmt.Println(tmp1,err)
+
+	var t1 []zabbix.Usergroups
+	t1 = append(t1, zabbix.Usergroups{UsergroupID: "84"})
+	tmp2, err := session.CreateUser(zabbix.UserCreateParams{Alias: "test", Passwd: "password", Usergroup: t1})
+
+	fmt.Println(tmp2,err)
+
+    tmp3, err := session.CreateHostgroup(zabbix.HostgroupCreateParams{Name: "test"})
+
+	fmt.Println(tmp3,err)
+
+	var t4 []zabbix.CreateHostgroup
+	var t5 zabbix.Templates
+
+	t2 := zabbix.Template{TemplateID: "18"}
+	t3 := zabbix.CreateHostInterface{Type: 1, Main: 1, Useip: 1, IP: "10.0.0.1", Port: "10050", DNS: ""}
+
+	t4 = append(t4, zabbix.CreateHostgroup{GroupID: "1"})
+	t5 = append(t5, t2)
+
+	tmp4, err := session.CreateHosts(zabbix.HostCreateParams{Hosts: "test", Hostgroups: t4, Interfaces: t3, Templates: t5})
+
+	fmt.Println(tmp4,err)
 }
 ```
 

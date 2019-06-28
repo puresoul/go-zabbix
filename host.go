@@ -182,16 +182,32 @@ type HostGetParams struct {
 // HostCreateParams struct represent the Zabbix paramaeters required for
 // creaing the hosts
 type HostCreateParams struct {
-	Host
-	Interfaces HostInterfaces `json:"interfaces"`
+	GetParameters
+	Hosts	   string `json:"host"`
+	Hostgroups []CreateHostgroup `json:"groups"`
+	Interfaces CreateHostInterface `json:"interfaces"`
 	Templates  Templates      `json:"templates,omitempty"`
 	// Inventory Inventory `json:"inventory,omitempty"`
 }
 
+type CreateHostInterface struct {
+	Type  int    `json:"type"`
+	Main  int    `json:"main"`
+	Useip int    `json:"useip"`
+	IP    string `json:"ip"`
+	DNS   string `json:"dns"`
+	Port  string `json:"port"`
+}
+
+type CreateHostgroup struct {
+    GroupID     string `json:"groupid,omitempty"`
+}
+
+
 // HostUpdateParams struct represents the Zabbix basic parameters for
 // updating the host by Zabbix API
 type HostUpdateParams struct {
-	Host
+	GetParameters
 	Interfaces      HostInterfaces `json:"interfaces,omitempty"`
 	Templates       Templates      `json:"templates,omitempty"`
 	UnlinkTemplates Templates      `json:"templates,omitempty"`
