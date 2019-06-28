@@ -28,28 +28,20 @@ package main
 import (
 	"fmt"
 	"time"
-
 	"github.com/cavaliercoder/go-zabbix"
 )
 
 func main() {
-	// Default approach - without session caching
-	session, err := zabbix.NewSession("http://zabbix/api_jsonrpc.php", "Admin", "zabbix")
+	session, err := zabbix.NewSession("http://zabbix/api_jsonrpc.php", "Admin", "zabbix", time.Duration(60) * time.Second)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
-	// Use session builder with caching.
-	// You can use own cache by implementing SessionAbstractCache interface
+	var grp []zabbix.Usergroups
+	grp = append(grp, zabbix.Usergroups{UsergroupID: "84"})
+	tmp, err := session.CreateUsers(zabbix.UserCreateParams{Alias: "testicek", Passwd: "password", Usergroup: grp})
 
-	cache := zabbix.NewSessionFileCache().SetFilePath("./zabbix_session")
-	session, err := zabbix.CreateClient("http://zabbix/api_jsonrpc.php").
-		WithCache(cache).
-		WithCredentials("Admin", "zabbix").
-		WithTimeout(5 * time.Second).
-		Connect()
-
-	fmt.Printf("Connected to Zabbix API v%s", session.Version())
+	fmt.Println(tmp,err)
 }
 ```
 
