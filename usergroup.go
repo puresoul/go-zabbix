@@ -24,7 +24,7 @@ type UsergroupRight struct {
 	ID string `json:"id,omitempty"`
 }
 
-func (c *Session) CreateUsergroup(params UsergroupCreateParams) (UsertgroupIDs string, err error) {
+func (c *Session) CreateUsergroup(params UsergroupCreateParams) (string, error) {
 	var body UsergroupResponse
 
 	if err := c.Get("usergroup.create", params, &body); err != nil {
@@ -41,5 +41,7 @@ func (c *Session) CreateUsergroup(params UsergroupCreateParams) (UsertgroupIDs s
 
 // HostUpdateParams struct represents the Zabbix basic parameters for
 // updating the host by Zabbix API
-/*type UsergroupUpdateParams struct {
+/*
+type UsergroupUpdateParams struct {
 }
+*/
