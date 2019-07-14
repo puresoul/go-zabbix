@@ -15,9 +15,9 @@ type jHostInterface struct {
 	Main        int    `json:"main,string"`
 	Port        string `json:"port"`
 	Type        int    `json:"type,string"`
-	UseIP       int	   `json:"useip,string"`
+	UseIP       int    `json:"useip,string"`
 	Bulk        int    `json:"bulk,string"`
-	Host 		jHosts `json:"hosts"`
+	Host        jHosts `json:"hosts"`
 }
 
 // HostInterface returns a native Go HostInterface struct mapped from the given JSON HostInterface data.
@@ -36,7 +36,7 @@ func (c *jHostInterface) HostInterface() (*HostInterface, error) {
 	if err != nil {
 		return nil, err
 	}
-	if len(hosts)>0 {
+	if len(hosts) > 0 {
 		hostIf.Host = hosts[0]
 	}
 

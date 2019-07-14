@@ -35,15 +35,15 @@ func (c *jHost) Host() (*Host, error) {
 	host.DisplayName = c.Name
 	host.Macros = c.Macros
 	host.Groups = c.Groups
-	host.Description   = c.Description
-	host.Status        = strconv.Itoa(c.Status)
-	host.ProxyID       = c.ProxyID
-	host.TLSConnect    = c.TLSConnect
-	host.TLSAccept     = c.TLSAccept
-	host.TLSIssuer     = c.TLSIssuer
-	host.TLSSubject    = c.TLSSubject
-	host.TLSPSKIdentity= c.TLSPSKIdentity
-	host.TLSPSK        = c.TLSPSK
+	host.Description = c.Description
+	host.Status = strconv.Itoa(c.Status)
+	host.ProxyID = c.ProxyID
+	host.TLSConnect = c.TLSConnect
+	host.TLSAccept = c.TLSAccept
+	host.TLSIssuer = c.TLSIssuer
+	host.TLSSubject = c.TLSSubject
+	host.TLSPSKIdentity = c.TLSPSKIdentity
+	host.TLSPSK = c.TLSPSK
 	/*
 		host.Source, err = strconv.Atoi(c.Flags)
 		if err != nil {

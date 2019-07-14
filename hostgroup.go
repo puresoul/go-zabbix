@@ -142,7 +142,7 @@ func (c *Session) GetHostgroups(params HostgroupGetParams) ([]Hostgroup, error) 
 
 type HostgroupCreateParams struct {
 	GetParameters
-	Name     string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 // HostgroupResponse represent Hostgroup action response body
@@ -158,6 +158,20 @@ func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIDs []
 	var body HostgroupResponse
 
 	if err := c.Get("hostgroup.create", params, &body); err != nil {
+		return nil, err
+	}
+	fmt.Println(body)
+	if (body.HostgroupIDs == nil) || (len(body.HostgroupIDs) == 0) {
+		return nil, ErrNotFound
+	}
+
+	return body.HostgroupIDs, nil
+}
+
+func (c *Session) DeleteHostgroup(params string) (HostgroupIDs []string, err error) {
+	var body HostgroupResponse
+
+	if err := c.Get("hostgroup.delete", params, &body); err != nil {
 		return nil, err
 	}
 	fmt.Println(body)

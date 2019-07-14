@@ -1,14 +1,14 @@
 package zabbix
 
 import (
-    "fmt"
+	"fmt"
 )
 
 type UserCreateParams struct {
 	GetParameters
-	Alias      string `json:"alias,omitempty"`
-	Passwd     string `json:"passwd,omitempty"`
-	Usergroup  []Usergroups `json:"usrgrps,omitempty"`
+	Alias     string       `json:"alias,omitempty"`
+	Passwd    string       `json:"passwd,omitempty"`
+	Usergroup []Usergroups `json:"usrgrps,omitempty"`
 }
 
 type UserResponse struct {

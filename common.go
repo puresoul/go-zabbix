@@ -1,9 +1,9 @@
 package zabbix
 
 import (
+	"github.com/pkg/errors"
 	"regexp"
 	"strconv"
-	"github.com/pkg/errors"
 )
 
 var timeSuffixRegexp = regexp.MustCompile(`^(\d+)([smhdw])$`)
@@ -20,11 +20,16 @@ func getTime(tm string) (int, error) {
 				return 0, errors.New("Can't convert " + tm + " to seconds")
 			}
 			switch m[2] {
-				case "s": return val, nil
-				case "m": return val*60, nil
-				case "h": return val*3600, nil
-				case "d": return val*86400, nil
-				case "w": return val*604800, nil
+			case "s":
+				return val, nil
+			case "m":
+				return val * 60, nil
+			case "h":
+				return val * 3600, nil
+			case "d":
+				return val * 86400, nil
+			case "w":
+				return val * 604800, nil
 			}
 			return 0, errors.New("Can't convert " + tm + " to seconds")
 		}

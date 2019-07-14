@@ -87,6 +87,75 @@ type ActionGetParams struct {
 	EventSource string `json:"eventsource"`
 }
 
+type ActionResponse struct {
+	GetParameters
+	ActionIDs []string `json:"actionids"`
+}
+
+type CreateActionGetParams struct {
+	Name                  string                  `json:"name"`
+	EventSource           string                  `json:"eventsource"`
+	Status                string                  `json:"status"`
+	EscPeriod             string                  `json:"esc_period"`
+	DefShortData          string                  `json:"def_shortdata"`
+	DefLongData           string                  `json:"def_longdata"`
+	Filter                ActionFilter                  `json:"filter"`
+	Operations            []Operations            `json:"operations"`
+	RecoveryOperations    []RecoveryOperations    `json:"recovery_operations"`
+	AcknowledgeOperations []AcknowledgeOperations `json:"acknowledge_operations"`
+}
+type Conditions struct {
+	Conditiontype int    `json:"conditiontype"`
+	Operator      int    `json:"operator"`
+	Value         string `json:"value"`
+}
+type ActionFilter struct {
+	Evaltype   int          `json:"evaltype"`
+	Conditions []Conditions `json:"conditions"`
+}
+type OpmessageGrp struct {
+	Usrgrpid string `json:"usrgrpid"`
+}
+type Opmessage struct {
+	DefaultMsg  int    `json:"default_msg,omitempty"`
+	Mediatypeid string `json:"mediatypeid,omitempty"`
+	Message string `json:"message,omitempty"`
+	Subject string `json:"subject,omitempty"`
+}
+
+type Opconditions struct {
+	Conditiontype int    `json:"conditiontype"`
+	Operator      int    `json:"operator"`
+	Value         string `json:"value"`
+}
+type OpcommandGrp struct {
+	Groupid string `json:"groupid"`
+}
+type Opcommand struct {
+	Type     int    `json:"type"`
+	Scriptid string `json:"scriptid"`
+}
+type Operations struct {
+	Operationtype int            `json:"operationtype"`
+	EscPeriod     string         `json:"esc_period,omitempty"`
+	EscStepFrom   int            `json:"esc_step_from"`
+	EscStepTo     int            `json:"esc_step_to"`
+	Evaltype      int            `json:"evaltype"`
+	OpmessageGrp  []OpmessageGrp `json:"opmessage_grp,omitempty"`
+	Opmessage     Opmessage      `json:"opmessage,omitempty"`
+	Opconditions  []Opconditions `json:"opconditions,omitempty"`
+	OpcommandGrp  []OpcommandGrp `json:"opcommand_grp,omitempty"`
+	Opcommand     Opcommand      `json:"opcommand,omitempty"`
+}
+type RecoveryOperations struct {
+	Operationtype string    `json:"operationtype"`
+	Opmessage     Opmessage `json:"opmessage"`
+}
+type AcknowledgeOperations struct {
+	Operationtype string    `json:"operationtype"`
+	Opmessage     Opmessage `json:"opmessage"`
+}
+
 // GetActions queries the Zabbix API for Actions matching the given search
 // parameters.
 //
@@ -115,4 +184,19 @@ func (c *Session) GetActions(params ActionGetParams) ([]Action, error) {
 	}
 
 	return out, nil
+}
+
+func (c *Session) CreateActions(params CreateActionGetParams) ([]string, error) {
+	var body ActionResponse
+
+	if err := c.Get("action.create", params, &body); err != nil {
+		return []string{""}, err
+	}
+	fmt.Println(body)
+	if (body.ActionIDs == nil) || (len(body.ActionIDs) == 0) {
+		return []string{""}, ErrNotFound
+	}
+
+	return body.ActionIDs, nil
+
 }
