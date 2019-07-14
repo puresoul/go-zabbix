@@ -26,7 +26,7 @@ type TemplateGetParams struct {
 }
 
 type Filter struct {
-	Host        []string `json:"host,omitempty"`
+	Host []string `json:"host,omitempty"`
 }
 
 func (c *Session) GetTemplates(params TemplateGetParams) ([]Template, error) {

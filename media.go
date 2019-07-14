@@ -1,32 +1,28 @@
 package zabbix
 
-import (
-)
+import ()
 
 type MediaCreateParams struct {
 	GetParameters
-	User []Users `json:"users,omitempty"`
-	Media     Medias       `json:"medias,omitempty"`
+	User  []Users `json:"users,omitempty"`
+	Media Medias  `json:"medias,omitempty"`
 }
 
 type Users struct {
-UserID  string `json:"userid,omitempty"`
+	UserID string `json:"userid,omitempty"`
 }
-
 
 type Medias struct {
-MediaTypeID  string `json:"mediatypeid"`
-SendTo  string `json:"sendto"`
-Active  int `json:"active"`
-Severity  int `json:"severity"`
-Period  string `json:"period"`
+	MediaTypeID string `json:"mediatypeid"`
+	SendTo      string `json:"sendto"`
+	Active      int    `json:"active"`
+	Severity    int    `json:"severity"`
+	Period      string `json:"period"`
 }
-
 
 type MediaResponse struct {
 	MediaIDs []string `json:"mediaids"`
 }
-
 
 func (c *Session) CreateMedia(params MediaCreateParams) ([]string, error) {
 	var body MediaResponse
@@ -42,7 +38,6 @@ func (c *Session) CreateMedia(params MediaCreateParams) ([]string, error) {
 	return body.MediaIDs, nil
 }
 
-
 func (c *Session) DeleteMedia(MediaIDs ...string) ([]string, error) {
 	var body MediaResponse
 
@@ -56,4 +51,3 @@ func (c *Session) DeleteMedia(MediaIDs ...string) ([]string, error) {
 
 	return body.MediaIDs, nil
 }
-

@@ -99,7 +99,7 @@ type CreateActionGetParams struct {
 	EscPeriod             string                  `json:"esc_period"`
 	DefShortData          string                  `json:"def_shortdata"`
 	DefLongData           string                  `json:"def_longdata"`
-	Filter                ActionFilter                  `json:"filter"`
+	Filter                ActionFilter            `json:"filter"`
 	Operations            []Operations            `json:"operations"`
 	RecoveryOperations    []RecoveryOperations    `json:"recovery_operations"`
 	AcknowledgeOperations []AcknowledgeOperations `json:"acknowledge_operations"`
@@ -119,8 +119,8 @@ type OpmessageGrp struct {
 type Opmessage struct {
 	DefaultMsg  int    `json:"default_msg,omitempty"`
 	Mediatypeid string `json:"mediatypeid,omitempty"`
-	Message string `json:"message,omitempty"`
-	Subject string `json:"subject,omitempty"`
+	Message     string `json:"message,omitempty"`
+	Subject     string `json:"subject,omitempty"`
 }
 
 type Opconditions struct {

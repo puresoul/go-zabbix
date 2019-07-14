@@ -2,27 +2,11 @@
 
 Go bindings for the Zabbix API
 
-[![go report card](https://goreportcard.com/badge/github.com/cavaliercoder/go-zabbix "go report card")](https://goreportcard.com/report/github.com/cavaliercoder/go-zabbix)
-[![cover.run](https://cover.run/go/github.com/cavaliercoder/go-zabbix.svg?style=flat&tag=golang-1.10)](https://cover.run/go?tag=golang-1.10&repo=github.com%2Fcavaliercoder%2Fgo-zabbix)
-[![GPL license](https://img.shields.io/badge/license-GPL-brightgreen.svg)](https://opensource.org/licenses/gpl-license)
-[![GoDoc](https://godoc.org/github.com/cavaliercoder/go-zabbix?status.svg)](https://godoc.org/github.com/cavaliercoder/go-zabbix)
-
 ## Overview
 
 This project provides bindings to interoperate between programs written in Go
-language and the Zabbix monitoring API.
-
-A number of Zabbix API bindings already exist for Go with varying levels of
-maturity. This project aims to provide an alternative implementation which is
-stable, fast, and allows for loose typing (using types such as `interface{}` or
-`map[string]interface{}`) as well as strong types (such as `Host` or `Event`).
-
-The package aims to have comprehensive coverage of Zabbix API methods from v1.8
-through to v3.0 without introducing limitations to the native API methods.
-
-## PS
-
-But I need to orchestrate user/host (groups) creation. Thats why this hack... :-D
+language and the Zabbix monitoring API with very ugly hacks to orchestrate 
+user/host/meda/templates/actions/groups creation. 
 
 ## Getting started with very rough examle
 
@@ -33,7 +17,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"time"
-	"github.com/cavaliercoder/go-zabbix"
+	"github.com/puresoul/go-zabbix"
 )
 
 func main() {
