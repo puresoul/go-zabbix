@@ -97,19 +97,21 @@ type Event struct {
 	EventID string
 
 	// Acknowledged indicates if the Event has been acknowledged by an operator.
-	Acknowledged bool
+	Acknowledged bool `json:"-"`
 
 	// Timestamp is the UTC timestamp at which the Event occurred.
 	Timestamp time.Time
 
+	Age string
+
 	// Source is the type of the Event source.
 	//
 	// Source must be one of the EventSource constants.
-	Source int
+	Source int `json:"-"`
 
 	// ObjectType is the type of the Object that is related to the Event.
 	// ObjectType must be one of the EventObjectType constants.
-	ObjectType int
+	ObjectType int `json:"-"`
 
 	// ObjectID is the unique identifier of the Object that caused this Event.
 	ObjectID int
@@ -122,15 +124,10 @@ type Event struct {
 
 	// ValueChanges indicates if the state of the related Object has changed
 	// since the previous Event.
-	ValueChanged bool
+	ValueChanged bool `json:"-"`
 
-	// Hosts is an array of Host which contained the Object which created this
-	// Event.
-	//
-	// Hosts is only populated if EventGetParams.SelectHosts is given in the
-	// query parameters that returned this Event and the Event Source is one of
-	// EventSourceTrigger or EventSourceDiscoveryRule.
-	Hosts []Host
+	Name string
+	Severity string
 }
 
 // EventGetParams is query params for event.get call
@@ -198,6 +195,8 @@ type EventGetParams struct {
 	// SelectAcknowledgements causes Acknowledgments for each Event to be
 	// attached in the search results in reverse chronological order.
 	SelectAcknowledgements SelectQuery `json:"select_acknowledges,omitempty"`
+
+	Name string `json:"name,omitempty"`
 }
 
 // GetEvents queries the Zabbix API for Events matching the given search

@@ -108,6 +108,12 @@ type HostgroupGetParams struct {
 
 	// Return only host groups that contain the given templates
 	Sortfield []string `json:"sortfield,omitempty"`
+
+    Filter FilterHostGroup `json:"filter,omitempty"`
+}
+
+type FilterHostGroup struct {
+    Name []string `json:"name,omitempty"`
 }
 
 // GetHostgroups queries the Zabbix API for Hostgroups matching the given search

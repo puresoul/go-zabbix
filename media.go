@@ -4,12 +4,8 @@ import ()
 
 type MediaCreateParams struct {
 	GetParameters
-	User  []Users `json:"users,omitempty"`
-	Media Medias  `json:"medias,omitempty"`
-}
-
-type Users struct {
 	UserID string `json:"userid,omitempty"`
+	Media []Medias  `json:"user_medias,omitempty"`
 }
 
 type Medias struct {
@@ -24,18 +20,14 @@ type MediaResponse struct {
 	MediaIDs []string `json:"mediaids"`
 }
 
-func (c *Session) CreateMedia(params MediaCreateParams) ([]string, error) {
+func (c *Session) CreateMedia(params MediaCreateParams) (error) {
 	var body MediaResponse
 
-	if err := c.Get("user.addmedia", params, &body); err != nil {
-		return []string{""}, err
+	if err := c.Get("user.update", params, &body); err != nil {
+		return err
 	}
 
-	if (body.MediaIDs == nil) || (len(body.MediaIDs) == 0) {
-		return []string{""}, ErrNotFound
-	}
-
-	return body.MediaIDs, nil
+	return nil
 }
 
 func (c *Session) DeleteMedia(MediaIDs ...string) ([]string, error) {

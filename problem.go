@@ -2,7 +2,7 @@ package zabbix
 
 import (
 	"fmt"
-	"time"
+//	"time"
 )
 
 const (
@@ -26,19 +26,19 @@ const (
 
 type Problem struct {
 	EventID       string
-	Source        string
-	Object        string
+	//Source        string
+	//Object        string
 	ObjectID      int
-	Clock         string
-	Timestamp     time.Time
-	REventID      int
-	RTimestamp    time.Time
-	CorrelationID string
-	UserID        int
+	//Clock         string
+	//Timestamp     time.Time
+	//REventID      int
+	//RTimestamp    time.Time
+	//CorrelationID string
+	//UserID        int
 	Name          string
-	Ack           string
+	//Ack           string
 	Severity      int
-	Suppressed    int
+	//Suppressed    int
 }
 
 type ProblemGetParams struct {

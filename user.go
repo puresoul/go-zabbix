@@ -8,6 +8,7 @@ type UserCreateParams struct {
 	GetParameters
 	Alias     string       `json:"alias,omitempty"`
 	Passwd    string       `json:"passwd,omitempty"`
+	Type      int          `json:"type,omitempty"`
 	Usergroup []Usergroups `json:"usrgrps,omitempty"`
 }
 

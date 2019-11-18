@@ -22,10 +22,10 @@ type TemplateGetParams struct {
 
 	// ApplicationIDs filters search results to hosts that have items in the
 	// given Application IDs.
-	Filter Filter `json:"filter,omitempty"`
+	Filter FilterTemplate `json:"filter,omitempty"`
 }
 
-type Filter struct {
+type FilterTemplate struct {
 	Host []string `json:"host,omitempty"`
 }
 
