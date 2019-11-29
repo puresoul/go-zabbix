@@ -166,7 +166,7 @@ func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIDs []
 	if err := c.Get("hostgroup.create", params, &body); err != nil {
 		return nil, err
 	}
-	fmt.Println(body)
+
 	if (body.HostgroupIDs == nil) || (len(body.HostgroupIDs) == 0) {
 		return nil, ErrNotFound
 	}
@@ -180,7 +180,7 @@ func (c *Session) DeleteHostgroup(params string) (HostgroupIDs []string, err err
 	if err := c.Get("hostgroup.delete", params, &body); err != nil {
 		return nil, err
 	}
-	fmt.Println(body)
+
 	if (body.HostgroupIDs == nil) || (len(body.HostgroupIDs) == 0) {
 		return nil, ErrNotFound
 	}

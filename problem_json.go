@@ -3,7 +3,7 @@ package zabbix
 import (
 	"fmt"
 	"strconv"
-//	"time"
+	"time"
 )
 
 type jProblem struct {
@@ -33,7 +33,7 @@ func (c *jProblem) Problem() (*Problem, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing ObjectID: %v", err)
 	}
-/*	problem.Source = c.Source
+
 	sec, err := strconv.ParseInt(c.Clock, 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing Problem clock: %v", err)
@@ -42,7 +42,12 @@ func (c *jProblem) Problem() (*Problem, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error parsing nanoseconds: %v", err)
 	}
+
+	problem.Clock = c.Clock
+	
 	problem.Timestamp = time.Unix(sec, ns)
+
+/*	problem.Source = c.Source
 	problem.REventID, err = strconv.Atoi(c.REventID)
 	rsec, err := strconv.ParseInt(c.RClock, 10, 64)
 	if err != nil {

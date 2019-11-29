@@ -151,8 +151,16 @@ type Operations struct {
 	Opcommand     Opcommand      `json:"opcommand,omitempty"`
 }
 type RecoveryOperations struct {
-	Operationtype string    `json:"operationtype,omitempty"`
-	Opmessage     Opmessage `json:"opmessage,omitempty"`
+	Operationtype int    `json:"operationtype,omitempty"`
+	EscPeriod     string         `json:"esc_period,omitempty"`
+	EscStepFrom   int            `json:"esc_step_from"`
+	EscStepTo     int            `json:"esc_step_to"`
+	Evaltype      int            `json:"evaltype"`
+	OpmessageGrp  []OpmessageGrp `json:"opmessage_grp,omitempty"`
+	Opmessage     Opmessage      `json:"opmessage,omitempty"`
+	Opconditions  []Opconditions `json:"opconditions,omitempty"`
+	OpcommandGrp  []OpcommandGrp `json:"opcommand_grp,omitempty"`
+	Opcommand     Opcommand      `json:"opcommand,omitempty"`
 }
 type AcknowledgeOperations struct {
 	Operationtype string    `json:"operationtype,omitempty"`

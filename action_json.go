@@ -32,7 +32,7 @@ func (c *jAction) Action() (*Action, error) {
 	action.ProblemMessageSubject = c.DefShortData
 	action.ProblemMessageBody = c.DefLongData
 	action.RecoveryMessageSubject = c.RShortData
-	action.RecoveryMessageBody = c.RShortData
+	action.RecoveryMessageBody = c.RLongData
 	action.RecoveryMessageEnabled = (c.RecoveryMsg == "1")
 	action.Enabled = (c.Status == "0")
 

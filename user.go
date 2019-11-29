@@ -1,7 +1,7 @@
 package zabbix
 
 import (
-	"fmt"
+//	"fmt"
 )
 
 type UserCreateParams struct {
@@ -26,7 +26,7 @@ func (c *Session) CreateUser(params UserCreateParams) ([]string, error) {
 	if err := c.Get("user.create", params, &body); err != nil {
 		return []string{""}, err
 	}
-	fmt.Println(body)
+
 	if (body.UserIDs == nil) || (len(body.UserIDs) == 0) {
 		return []string{""}, ErrNotFound
 	}

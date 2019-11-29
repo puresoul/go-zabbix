@@ -222,7 +222,6 @@ func (c *Session) GetEvents(params EventGetParams) ([]Event, error) {
 		if err != nil {
 			return nil, fmt.Errorf("Error mapping Event %d in response: %v", i, err)
 		}
-
 		out[i] = *event
 	}
 

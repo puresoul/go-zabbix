@@ -2,7 +2,7 @@ package zabbix
 
 import (
 	"fmt"
-//	"time"
+	"time"
 )
 
 const (
@@ -29,8 +29,8 @@ type Problem struct {
 	//Source        string
 	//Object        string
 	ObjectID      int
-	//Clock         string
-	//Timestamp     time.Time
+	Clock         string
+	Timestamp     time.Time
 	//REventID      int
 	//RTimestamp    time.Time
 	//CorrelationID string
