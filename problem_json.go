@@ -27,12 +27,8 @@ type jProblem struct {
 func (c *jProblem) Problem() (*Problem, error) {
 	problem := &Problem{}
 	problem.EventID = c.EventID
-//	problem.Object = c.Object
-	objid, err := strconv.Atoi(c.ObjectID)
-	problem.ObjectID = objid
-	if err != nil {
-		return nil, fmt.Errorf("Error parsing ObjectID: %v", err)
-	}
+	//	problem.Object = c.Object
+	problem.ObjectID = c.ObjectID
 
 	sec, err := strconv.ParseInt(c.Clock, 10, 64)
 	if err != nil {
@@ -44,32 +40,32 @@ func (c *jProblem) Problem() (*Problem, error) {
 	}
 
 	problem.Clock = c.Clock
-	
+
 	problem.Timestamp = time.Unix(sec, ns)
 
-/*	problem.Source = c.Source
-	problem.REventID, err = strconv.Atoi(c.REventID)
-	rsec, err := strconv.ParseInt(c.RClock, 10, 64)
-	if err != nil {
-		return nil, fmt.Errorf("Error parsing recovery clock: %v", err)
-	}
-	rns, err := strconv.ParseInt(c.RNs, 10, 64)
-	if err != nil {
-		return nil, fmt.Errorf("Error while parsing recovery ns: %v", err)
-	}
-	problem.RTimestamp = time.Unix(rsec, rns)
-	problem.CorrelationID = c.CorrelationID
-	problem.UserID, err = strconv.Atoi(c.UserID)
-	if err != nil {
-		return nil, fmt.Errorf("Error while parsing userID: %v", err)
-	}*/
+	/*	problem.Source = c.Source
+		problem.REventID, err = strconv.Atoi(c.REventID)
+		rsec, err := strconv.ParseInt(c.RClock, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("Error parsing recovery clock: %v", err)
+		}
+		rns, err := strconv.ParseInt(c.RNs, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("Error while parsing recovery ns: %v", err)
+		}
+		problem.RTimestamp = time.Unix(rsec, rns)
+		problem.CorrelationID = c.CorrelationID
+		problem.UserID, err = strconv.Atoi(c.UserID)
+		if err != nil {
+			return nil, fmt.Errorf("Error while parsing userID: %v", err)
+		}*/
 	problem.Name = c.Name
-//	problem.Ack = c.Ack
+	//	problem.Ack = c.Ack
 	problem.Severity, err = strconv.Atoi(c.Severity)
 	if err != nil {
 		return nil, fmt.Errorf("Error while parsing Severity: %v", err)
 	}
-//	problem.Suppressed = c.Suppressed
+	//	problem.Suppressed = c.Suppressed
 
 	return problem, nil
 }

@@ -126,7 +126,7 @@ type Event struct {
 	// since the previous Event.
 	ValueChanged bool `json:"-"`
 
-	Name string
+	Name     string
 	Severity string
 }
 

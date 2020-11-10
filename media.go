@@ -4,8 +4,8 @@ import ()
 
 type MediaCreateParams struct {
 	GetParameters
-	UserID string `json:"userid,omitempty"`
-	Media []Medias  `json:"user_medias,omitempty"`
+	UserID string   `json:"userid,omitempty"`
+	Media  []Medias `json:"user_medias,omitempty"`
 }
 
 type Medias struct {
@@ -20,7 +20,7 @@ type MediaResponse struct {
 	MediaIDs []string `json:"mediaids"`
 }
 
-func (c *Session) CreateMedia(params MediaCreateParams) (error) {
+func (c *Session) CreateMedia(params MediaCreateParams) error {
 	var body MediaResponse
 
 	if err := c.Get("user.update", params, &body); err != nil {

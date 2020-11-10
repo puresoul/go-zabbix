@@ -109,11 +109,11 @@ type HostgroupGetParams struct {
 	// Return only host groups that contain the given templates
 	Sortfield []string `json:"sortfield,omitempty"`
 
-    Filter FilterHostGroup `json:"filter,omitempty"`
+	Filter FilterHostGroup `json:"filter,omitempty"`
 }
 
 type FilterHostGroup struct {
-    Name []string `json:"name,omitempty"`
+	Name []string `json:"name,omitempty"`
 }
 
 // GetHostgroups queries the Zabbix API for Hostgroups matching the given search
@@ -174,10 +174,10 @@ func (c *Session) CreateHostgroup(params HostgroupCreateParams) (HostgroupIDs []
 	return body.HostgroupIDs, nil
 }
 
-func (c *Session) DeleteHostgroup(params string) (HostgroupIDs []string, err error) {
+func (c *Session) DeleteHostgroup(HostgroupIDs ...string) (HostgroupIds []string, err error) {
 	var body HostgroupResponse
 
-	if err := c.Get("hostgroup.delete", params, &body); err != nil {
+	if err := c.Get("hostgroup.delete", HostgroupIDs, &body); err != nil {
 		return nil, err
 	}
 

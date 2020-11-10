@@ -14,9 +14,9 @@ type UsergroupResponse struct {
 
 type UsergroupCreateParams struct {
 	GetParameters
-	Name   string         `json:"name,omitempty"`
+	Name   string           `json:"name,omitempty"`
 	Rights []UsergroupRight `json:"rights,omitempty"`
-	UserID string         `json:"userids,omitempty"`
+	UserID string           `json:"userids,omitempty"`
 }
 
 type UsergroupRight struct {
@@ -38,19 +38,18 @@ func (c *Session) CreateUsergroup(params UsergroupCreateParams) ([]string, error
 }
 
 func (c *Session) DeleteUsergroups(UsergroupIDs ...string) ([]string, error) {
-        var body UsergroupResponse
+	var body UsergroupResponse
 
-        if err := c.Get("user.delete", UsergroupIDs, &body); err != nil {
-                return []string{""}, err
-        }
+	if err := c.Get("usergroup.delete", UsergroupIDs, &body); err != nil {
+		return []string{""}, err
+	}
 
-        if (body.UsergroupIDs == nil) || (len(body.UsergroupIDs) == 0) {
-                return []string{""}, ErrNotFound
-        }
+	if (body.UsergroupIDs == nil) || (len(body.UsergroupIDs) == 0) {
+		return []string{""}, ErrNotFound
+	}
 
-        return body.UsergroupIDs, nil
+	return body.UsergroupIDs, nil
 }
-
 
 // HostUpdateParams struct represents the Zabbix basic parameters for
 // updating the host by Zabbix API

@@ -89,7 +89,7 @@ type ActionGetParams struct {
 
 type ActionResponse struct {
 	GetParameters
-	ActionIDs []int `json:"actionids"`
+	ActionIDs []string `json:"actionids"`
 }
 
 type CreateActionGetParams struct {
@@ -99,26 +99,31 @@ type CreateActionGetParams struct {
 	EscPeriod             string                  `json:"esc_period"`
 	DefShortData          string                  `json:"def_shortdata"`
 	DefLongData           string                  `json:"def_longdata"`
+	RShortData            string                  `json:"r_shortdata"`
+	RLongData             string                  `json:"r_longdata"`
 	Filter                ActionFilter            `json:"filter"`
 	Operations            []Operations            `json:"operations,omitempty"`
 	RecoveryOperations    []RecoveryOperations    `json:"recovery_operations,omitempty"`
 	AcknowledgeOperations []AcknowledgeOperations `json:"acknowledge_operations,omitempty"`
 }
+
 type Conditions struct {
 	Conditiontype int    `json:"conditiontype"`
 	Operator      int    `json:"operator"`
 	Value         string `json:"value"`
-	FormulaID         string `json:"formulaid,omitempty"`
+	FormulaID     string `json:"formulaid,omitempty"`
 }
+
 type ActionFilter struct {
 	Evaltype   int          `json:"evaltype"`
-	Formula         string `json:"formula,omitempty"`
+	Formula    string       `json:"formula,omitempty"`
 	Conditions []Conditions `json:"conditions,omitempty"`
 }
 
 type OpmessageGrp struct {
 	Usrgrpid string `json:"usrgrpid,omitempty"`
 }
+
 type Opmessage struct {
 	DefaultMsg  int    `json:"default_msg,omitempty"`
 	MediaTypeID string `json:"mediatypeid,omitempty"`
@@ -131,13 +136,16 @@ type Opconditions struct {
 	Operator      int    `json:"operator"`
 	Value         string `json:"value"`
 }
+
 type OpcommandGrp struct {
 	Groupid string `json:"groupid,omitempty"`
 }
+
 type Opcommand struct {
 	Type     int    `json:"type,omitempty"`
 	Scriptid string `json:"scriptid,omitempty"`
 }
+
 type Operations struct {
 	Operationtype int            `json:"operationtype"`
 	EscPeriod     string         `json:"esc_period,omitempty"`
@@ -150,8 +158,9 @@ type Operations struct {
 	OpcommandGrp  []OpcommandGrp `json:"opcommand_grp,omitempty"`
 	Opcommand     Opcommand      `json:"opcommand,omitempty"`
 }
+
 type RecoveryOperations struct {
-	Operationtype int    `json:"operationtype,omitempty"`
+	Operationtype int            `json:"operationtype"`
 	EscPeriod     string         `json:"esc_period,omitempty"`
 	EscStepFrom   int            `json:"esc_step_from"`
 	EscStepTo     int            `json:"esc_step_to"`
@@ -162,6 +171,7 @@ type RecoveryOperations struct {
 	OpcommandGrp  []OpcommandGrp `json:"opcommand_grp,omitempty"`
 	Opcommand     Opcommand      `json:"opcommand,omitempty"`
 }
+
 type AcknowledgeOperations struct {
 	Operationtype string    `json:"operationtype,omitempty"`
 	Opmessage     Opmessage `json:"opmessage,omitempty"`
@@ -214,16 +224,16 @@ func (c *Session) CreateActions(params CreateActionGetParams) ([]string, error) 
 }
 
 func (c *Session) DeleteAction(ActionIDs []string) ([]string, error) {
-    var body ActionResponse
+	var body ActionResponse
 	var out []string
 
-    if err := c.Get("action.delete", ActionIDs, &body); err != nil {
-        return []string{""}, err
-    }
+	if err := c.Get("action.delete", ActionIDs, &body); err != nil {
+		return []string{""}, err
+	}
 
-    if (body.ActionIDs == nil) || (len(body.ActionIDs) == 0) {
-        return []string{""}, ErrNotFound
-    }
+	if (body.ActionIDs == nil) || (len(body.ActionIDs) == 0) {
+		return []string{""}, ErrNotFound
+	}
 
 	out = append(out, fmt.Sprint(body.ActionIDs[0]))
 

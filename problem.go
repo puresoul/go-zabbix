@@ -25,19 +25,19 @@ const (
 )
 
 type Problem struct {
-	EventID       string
+	EventID string
 	//Source        string
 	//Object        string
-	ObjectID      int
-	Clock         string
-	Timestamp     time.Time
+	ObjectID  string
+	Clock     string
+	Timestamp time.Time
 	//REventID      int
 	//RTimestamp    time.Time
 	//CorrelationID string
 	//UserID        int
-	Name          string
+	Name string
 	//Ack           string
-	Severity      int
+	Severity int
 	//Suppressed    int
 }
 
