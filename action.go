@@ -87,10 +87,16 @@ type ActionGetParams struct {
 	EventSource string `json:"eventsource"`
 }
 
-type ActionResponse struct {
+type ActionCreateResponse struct {
+	GetParameters
+	ActionIDs []int `json:"actionids"`
+}
+
+type ActionDeleteResponse struct {
 	GetParameters
 	ActionIDs []string `json:"actionids"`
 }
+
 
 type CreateActionGetParams struct {
 	Name                  string                  `json:"name"`
@@ -208,7 +214,7 @@ func (c *Session) GetActions(params ActionGetParams) ([]Action, error) {
 }
 
 func (c *Session) CreateActions(params CreateActionGetParams) ([]string, error) {
-	var body ActionResponse
+	var body ActionCreateResponse
 	var out []string
 
 	if err := c.Get("action.create", params, &body); err != nil {
@@ -224,7 +230,7 @@ func (c *Session) CreateActions(params CreateActionGetParams) ([]string, error) 
 }
 
 func (c *Session) DeleteAction(ActionIDs []string) ([]string, error) {
-	var body ActionResponse
+	var body ActionDeleteResponse
 	var out []string
 
 	if err := c.Get("action.delete", ActionIDs, &body); err != nil {

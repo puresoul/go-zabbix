@@ -20,7 +20,7 @@ type MediaResponse struct {
 	MediaIDs []string `json:"mediaids"`
 }
 
-func (c *Session) CreateMedia(params MediaCreateParams) error {
+func (c *Session) UpdateMedia(params MediaCreateParams) (error) {
 	var body MediaResponse
 
 	if err := c.Get("user.update", params, &body); err != nil {
@@ -30,16 +30,3 @@ func (c *Session) CreateMedia(params MediaCreateParams) error {
 	return nil
 }
 
-func (c *Session) DeleteMedia(MediaIDs ...string) ([]string, error) {
-	var body MediaResponse
-
-	if err := c.Get("user.deletemedia", MediaIDs, &body); err != nil {
-		return []string{""}, err
-	}
-
-	if (body.MediaIDs == nil) || (len(body.MediaIDs) == 0) {
-		return []string{""}, ErrNotFound
-	}
-
-	return body.MediaIDs, nil
-}
